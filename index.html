@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar &amp; Clock</title>
+  <meta name="description" content="A calendar with a live digital clock. Click a date to see its events, double-click to add one.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+
+    <!-- Left: clock + selected day -->
+    <aside class="side" aria-label="Clock and day details">
+      <section class="clock" aria-label="Digital clock">
+        <div class="clock-time" id="clockTime" role="timer" aria-live="off">--:--:--</div>
+        <div class="clock-meta">
+          <span id="clockDate">Loading date</span>
+          <button type="button" class="link-btn" id="formatToggle" aria-pressed="false">24-hour</button>
+        </div>
+      </section>
+
+      <section class="day-panel" aria-live="polite">
+        <header class="day-head">
+          <div>
+            <h2 id="panelTitle">Selected day</h2>
+            <p id="panelSub" class="muted"></p>
+          </div>
+          <button type="button" class="btn btn-solid" id="addBtn">Add event</button>
+        </header>
+        <ul class="event-list" id="eventList"></ul>
+      </section>
+    </aside>
+
+    <!-- Right: calendar -->
+    <section class="calendar" aria-label="Calendar">
+      <header class="cal-head">
+        <h1 id="monthLabel">Month</h1>
+        <div class="cal-nav">
+          <button type="button" class="btn" id="todayBtn">Today</button>
+          <button type="button" class="icon-btn" id="prevBtn" aria-label="Previous month">&#8249;</button>
+          <button type="button" class="icon-btn" id="nextBtn" aria-label="Next month">&#8250;</button>
+        </div>
+      </header>
+
+      <div class="weekdays" aria-hidden="true">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div class="grid" id="grid"></div>
+
+      <footer class="legend">
+        <span><i class="key key-today"></i>Today</span>
+        <span><i class="key key-selected"></i>Selected</span>
+        <span><i class="key key-event"></i>Has events</span>
+        <span class="hint">Click a date to view &middot; double-click to add</span>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Add event dialog -->
+  <dialog id="eventDialog" aria-labelledby="dialogTitle">
+    <form id="eventForm" method="dialog" novalidate>
+      <h2 id="dialogTitle">New event</h2>
+      <p class="muted" id="dialogDate"></p>
+
+      <label for="evTitle">Title</label>
+      <input id="evTitle" name="title" type="text" maxlength="80" placeholder="e.g. Project review" required>
+      <p class="error" id="titleError" hidden>Add a title to save this event.</p>
+
+      <label for="evTime">Time <span class="muted">(optional, gives a reminder)</span></label>
+      <input id="evTime" name="time" type="time">
+
+      <label for="evNote">Note <span class="muted">(optional)</span></label>
+      <textarea id="evNote" name="note" rows="3" maxlength="240"></textarea>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn btn-solid">Save event</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="assertive" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
